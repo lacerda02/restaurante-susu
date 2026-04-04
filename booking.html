@@ -105,55 +105,35 @@
                 <h1 class="text-white mb-4">Faça sua Reserva</h1>
 
                 <form id="reservaForm">
-                    <div class="row g-3">
+                   <div class="container py-5">
+    <h1 class="mb-4">Faça sua Reserva</h1>
 
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="name" placeholder="Nome" required>
-                                <label for="name">Nome</label>
-                            </div>
-                        </div>
+    <form id="reservaForm">
+        <div class="mb-3">
+            <input type="text" id="name" class="form-control" placeholder="Nome" required>
+        </div>
+        <div class="mb-3">
+            <input type="email" id="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="mb-3">
+            <input type="datetime-local" id="datetime" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <select id="people" class="form-select">
+                <option value="1">1 Pessoa</option>
+                <option value="2">2 Pessoas</option>
+                <option value="3">3 Pessoas</option>
+                <option value="4">4 Pessoas</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <textarea id="message" class="form-control" rows="3" placeholder="Pedido Especial"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Reservar</button>
+    </form>
 
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="email" class="form-control" id="email" placeholder="Email">
-                                <label for="email">Email</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <input type="datetime-local" class="form-control" id="datetime" required>
-                                <label for="datetime">Data e Hora</label>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <select class="form-select" id="people">
-                                    <option value="1">1 Pessoa</option>
-                                    <option value="2">2 Pessoas</option>
-                                    <option value="3">3 Pessoas</option>
-                                    <option value="4">4 Pessoas</option>
-                                </select>
-                                <label for="people">Número de Pessoas</label>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="form-floating">
-                                <textarea class="form-control" id="message" style="height: 100px"></textarea>
-                                <label for="message">Pedido Especial</label>
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <button class="btn btn-primary w-100 py-3" type="submit">
-                                Reservar
-                            </button>
-                        </div>
-
-                    </div>
+    <div id="status" class="mt-3"></div>
+</div>
                 </form>
 
                 <div id="status" class="text-white mt-3"></div>
@@ -268,29 +248,41 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 	<script>
+const webAppURL = "https://script.google.com/macros/s/AKfycbz4DTlUJsZ6W-sSuovE4NQCsav8P5SxmjJNoXGgvjTVhinr63fVzzb14f887yEJPz4Dog/exec"; // URL do Apps Script publicado
+
 document.getElementById("reservaForm").addEventListener("submit", function(e) {
     e.preventDefault();
-
     const status = document.getElementById("status");
     status.innerHTML = "A enviar...";
 
-    const data = new FormData();
-    data.append("nome", document.getElementById("name").value);
-    data.append("email", document.getElementById("email").value);
-    data.append("datetime", document.getElementById("datetime").value);
-    data.append("pessoas", document.getElementById("people").value);
-    data.append("mensagem", document.getElementById("message").value);
+    const data = {
+        nome: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        datetime: document.getElementById("datetime").value,
+        pessoas: document.getElementById("people").value,
+        mensagem: document.getElementById("message").value
+    };
 
-    fetch("https://script.google.com/macros/s/AKfycbz4DTlUJsZ6W-sSuovE4NQCsav8P5SxmjJNoXGgvjTVhinr63fVzzb14f887yEJPz4Dog/exec", {
-       method: "POST",
-       body: data,
-       mode: "no-cors" // mantém para contornar CORS
+    fetch(webAppURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if(result.status === "OK") {
+            status.innerHTML = "✅ " + result.message;
+            document.getElementById("reservaForm").reset();
+        } else {
+            status.innerHTML = "❌ " + result.message;
+        }
+    })
+    .catch(error => {
+        status.innerHTML = "❌ Erro ao enviar!";
+        console.error(error);
     });
-
-    // Mostra feedback imediatamente (não consegue ler JSON real)
-    status.innerHTML = "✅ Reserva enviada!";
-    document.getElementById("reservaForm").reset();
 });
+
 </script>
 </body>
 
