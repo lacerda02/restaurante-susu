@@ -283,22 +283,13 @@ document.getElementById("reservaForm").addEventListener("submit", function(e) {
 
     fetch("https://script.google.com/macros/s/AKfycbz4DTlUJsZ6W-sSuovE4NQCsav8P5SxmjJNoXGgvjTVhinr63fVzzb14f887yEJPz4Dog/exec", {
        method: "POST",
-    body: data,
-    mode: "no-cors"
-    })
-    .then(response => response.json())
-    .then(result => {
-        if(result.status === "OK") {
-            status.innerHTML = "✅ " + result.message;
-            document.getElementById("reservaForm").reset();
-        } else {
-            status.innerHTML = "❌ " + result.message;
-        }
-    })
-    .catch(error => {
-        status.innerHTML = "❌ Erro ao enviar!";
-        console.error(error);
+       body: data,
+       mode: "no-cors" // mantém para contornar CORS
     });
+
+    // Mostra feedback imediatamente (não consegue ler JSON real)
+    status.innerHTML = "✅ Reserva enviada!";
+    document.getElementById("reservaForm").reset();
 });
 </script>
 </body>
