@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Restoran - Bootstrap Restaurant Template</title>
+    <title>R.Sabores da Susu</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -47,7 +47,7 @@
         <div class="container-xxl position-relative p-0">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                 <a href="" class="navbar-brand p-0">
-                    <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
+                    <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>R.Sabores da Susu</h1>
                     <!-- <img src="img/logo.png" alt="Logo"> -->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -269,32 +269,27 @@
     <script src="js/main.js"></script>
 </body>
 <script>
-document.getElementById("reservaForm").addEventListener("submit", async function(e) {
+document.getElementById("reservaForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
     const status = document.getElementById("status");
     status.innerHTML = "A enviar...";
 
-    const data = {
-        nome: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        datetime: document.getElementById("datetime").value,
-        pessoas: document.getElementById("people").value,
-        mensagem: document.getElementById("message").value
-    };
+    const data = new FormData();
+    data.append("nome", document.getElementById("name").value);
+    data.append("email", document.getElementById("email").value);
+    data.append("datetime", document.getElementById("datetime").value);
+    data.append("pessoas", document.getElementById("people").value);
+    data.append("mensagem", document.getElementById("message").value);
 
-    try {
-        await fetch("https://script.google.com/macros/s/AKfycbzbfXD9_p5cyQDWj9Wx-Vy3lTgdNP8W3QLFZ9e0j9-oyOy9qJP8pFXEpxqWxdKSQRai9A/exec", {
-            method: "POST",
-            body: JSON.stringify(data)
-        });
+    fetch("https://script.google.com/macros/s/AKfycbwfRjJ1WsSlJ6PLjazKIwxT3wOGBv7JfRf1axJZz_GKS-GDgdcx7c3oeYToWWTTU6MpFw/exec", {
+        method: "POST",
+        body: data,
+        mode: "no-cors"
+    });
 
-        status.innerHTML = "✅ Reserva enviada com sucesso!";
-        document.getElementById("reservaForm").reset();
-
-    } catch (error) {
-        status.innerHTML = "❌ Erro ao enviar. Tente novamente.";
-    }
+    status.innerHTML = "✅ Reserva enviada!";
+    document.getElementById("reservaForm").reset();
 });
 </script>
 	
