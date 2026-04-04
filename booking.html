@@ -282,8 +282,9 @@ document.getElementById("reservaForm").addEventListener("submit", function(e) {
     data.append("mensagem", document.getElementById("message").value);
 
     fetch("https://script.google.com/macros/s/AKfycbz4DTlUJsZ6W-sSuovE4NQCsav8P5SxmjJNoXGgvjTVhinr63fVzzb14f887yEJPz4Dog/exec", {
-        method: "POST",
-        body: data
+       method: "POST",
+    body: data,
+    mode: "no-cors"
     })
     .then(response => response.json())
     .then(result => {
