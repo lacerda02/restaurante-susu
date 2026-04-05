@@ -283,6 +283,7 @@ document.getElementById("reservaForm").addEventListener("submit", function(e) {
     const data = new FormData();
     data.append("nome", document.getElementById("name").value);
     data.append("numero", document.getElementById("numero").value);
+	  data.append("numeromesa", document.getElementById("numeromesa").value);
     data.append("datetime", document.getElementById("datetime").value);
     data.append("pessoas", document.getElementById("people").value);
     data.append("mensagem", document.getElementById("message").value);
