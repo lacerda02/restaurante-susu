@@ -117,8 +117,8 @@
 
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="email" class="form-control" name="Email" id="email" placeholder="Email">
-                                <label for="email">Email</label>
+                                <input type="numero" class="form-control" name="Numero" id="numero" placeholder="Numero">
+                                <label for="numero">Numero</label>
                             </div>
                         </div>
 
@@ -277,7 +277,7 @@ document.getElementById("reservaForm").addEventListener("submit", function(e) {
 
     const data = new FormData();
     data.append("nome", document.getElementById("name").value);
-    data.append("email", document.getElementById("email").value);
+    data.append("numero", document.getElementById("numero").value);
     data.append("datetime", document.getElementById("datetime").value);
     data.append("pessoas", document.getElementById("people").value);
     data.append("mensagem", document.getElementById("message").value);
